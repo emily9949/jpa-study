@@ -26,7 +26,7 @@ public class Menu {
 
     public Menu() {
     }
-
+    
     public Menu(int menuCode, String menuName, int menuPrice, int categoryCode, String orderableStatus) {
         this.menuCode = menuCode;
         this.menuName = menuName;

@@ -6,13 +6,16 @@ import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
 public class EntityManagerLifeCycleTest {
-    private static EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager;
+    private static EntityManagerFactory entityManagerFactory; // 애플리케이션에서 하나만 유지
+    private EntityManager entityManager; // 각 테스트마다 새로 생성하여 관리
 
     @BeforeAll
     public static void initFactory() {
         entityManagerFactory = Persistence.createEntityManagerFactory("jpatest");
+        // jpatest 는 persistence.xml 에서 정의한 persistence unit 의 이름
     }
+
+    
 
     @BeforeEach
     public void initManager() {
