@@ -7,6 +7,9 @@
         <!-- 설명. 엔티티는 설정에 따로 추가할 예정 -->
         <class>com.sumin.section01.entity.Member</class>
         <class>com.sumin.section02.column.Member</class>
+        <class>com.sumin.section03.primarykey.subsection01.identity.Member</class>
+        <class>com.sumin.section03.primarykey.subsection02.table.Member</class>
+        <class>com.sumin.section04.enumtype.Member</class>
 
         <properties>
 
@@ -20,6 +23,13 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
+
+            <!-- 설명. auto ddl 설정
+                create: 애플리케이션 실행 시 기존 테이블이 있다면 drop, 그리고 항상 create table 진행
+                create-drop: 애플리케이션 실행 시 항상 create table 진행, 종료 시 drop
+                update: 애플리케이션 실행 시 기존 테이블이 없다면 create table, 있다면 컬럼이 추가 될 때만 alter
+           -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
     </persistence-unit>
 </persistence>
