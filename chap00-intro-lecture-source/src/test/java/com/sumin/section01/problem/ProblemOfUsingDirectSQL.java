@@ -141,4 +141,46 @@ public class ProblemOfUsingDirectSQL {
      *  }
      *
      * */
+
+    /* 설명. 4. 동일성 보장 문제 */
+    @DisplayName("조회한 두 개의 행을 담은 객체의 동일성 비교 테스트 ")
+    @Test
+    void testEquals() throws SQLException {
+
+        // given
+        String query = "SELECT MENU_CODE, MENU_NAME FROM TBL_MENU WHERE MENU_CODE = 12";
+
+        // when
+        Statement stmt1 = con.createStatement();
+        ResultSet rset1 = stmt1.executeQuery(query);
+
+        Menu menu1 = null;
+        while (rset1.next()) {
+            menu1 = new Menu();
+            menu1.setMenuCode(rset1.getInt("MENU_CODE"));
+            menu1.setMenuName(rset1.getString("MENU_NAME"));
+        }
+
+        Statement stmt2 = con.createStatement();
+        ResultSet rset2 = stmt1.executeQuery(query);
+
+        Menu menu2 = null;
+        while (rset2.next()) {
+            menu2 = new Menu();
+            menu2.setMenuCode(rset2.getInt("MENU_CODE"));
+            menu2.setMenuName(rset2.getString("MENU_NAME"));
+        }
+
+        // then
+        Assertions.assertNotEquals(menu1, menu2);
+    }
+
+    /* 설명.
+     *  JPA를 활용하면 동일 비교가 가능하다.
+     *  Menu menu1 = entityManager.find(Menu.class, 1);
+     *  Menu menu2 = entityManager.find(Menu.class, 1);
+     *  System.out.println(menu1==menu2);
+     * */
+
+       
 }
