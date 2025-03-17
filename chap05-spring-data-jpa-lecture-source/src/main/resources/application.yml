@@ -1,0 +1,23 @@
+server:
+  port: 8888
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/menudb
+    username: root
+    password: 449966
+
+  jpa:
+    generate-ddl: false
+    show-sql : true
+    database : mysql
+    properties:
+      hibernate:
+        '[format_sql]': true
+
+logging:
+  level:
+    com:
+      sumin:
+        springdatajpa: debug
