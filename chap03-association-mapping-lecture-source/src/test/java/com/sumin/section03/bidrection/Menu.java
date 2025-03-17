@@ -1,10 +1,10 @@
-package com.sumin.section01.manytoone;
+package com.sumin.section03.bidrection;
 
 import jakarta.persistence.*;
 
-@Entity(name="menu_and_category")
+@Entity(name="bidrection_menu")
 @Table(name="tbl_menu")
-public class MenuAndCategory {
+public class Menu {
 
     @Id
     @Column(name="menu_code")
@@ -16,17 +16,17 @@ public class MenuAndCategory {
     @Column(name="menu_price")
     private int menuPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 메뉴 -> 카테고리의 전체 카디널리티
+    @ManyToOne
     @JoinColumn(name="category_code")  // FK제약조건이 있는 컬럼명(자식테이블에 있는 컬럼명만 쓴다.)
-    Category category;      // 메뉴 1개가 카테고리 엔티티 객체를 몇개 가지는지(List<타입>/타입)
+    private Category category;      // 메뉴 1개가 카테고리 엔티티 객체를 몇개 가지는지(List<타입>/타입)
 
     @Column(name="orderable_status")
     private String orderableStatus;
 
-    public MenuAndCategory() {
+    public Menu() {
     }
 
-    public MenuAndCategory(int menuCode, String menuName, int menuPrice, Category category, String orderableStatus) {
+    public Menu(int menuCode, String menuName, int menuPrice, Category category, String orderableStatus) {
         this.menuCode = menuCode;
         this.menuName = menuName;
         this.menuPrice = menuPrice;
