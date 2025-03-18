@@ -1,7 +1,10 @@
 package com.sumin.springdatajpa.menu.service;
 
+import com.sumin.springdatajpa.menu.dto.CategoryDTO;
 import com.sumin.springdatajpa.menu.dto.MenuDTO;
+import com.sumin.springdatajpa.menu.entity.Category;
 import com.sumin.springdatajpa.menu.entity.Menu;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +24,13 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public MenuService(MenuRepository menuRepository, ModelMapper modelMapper) {
+    public MenuService(MenuRepository menuRepository, ModelMapper modelMapper, CategoryRepository categoryRepository) {
         this.menuRepository = menuRepository;
         this.modelMapper = modelMapper;
+        this.categoryRepository = categoryRepository;
     }
 
     /* 설명. 1. findById() */
@@ -54,5 +59,31 @@ public class MenuService {
         Page<Menu> menuList = menuRepository.findAll(pageable);
 
         return menuList.map(menu -> modelMapper.map(menu, MenuDTO.class));
+    }
+
+    /* 설명. 4. QueryMethod 활용 */
+    public List<MenuDTO> findMenuPrice(int menuPrice) {
+
+        List<Menu> menus = menuRepository.findByMenuPriceGreaterThan(menuPrice);
+
+        return menus.stream().map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    /* 설명. 5. jpql 및 native sql 활용 */
+    public List<CategoryDTO> findAllCategory() {
+
+        List<Category> categories = categoryRepository.findAllCategories();
+
+        return categories.stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
+
+    }
+
+    /* 설명. 6. 추가하기 */
+    @Transactional
+    public void registMenu(MenuDTO newMenu) {
+        menuRepository.save(modelMapper.map(newMenu, Menu.class));
     }
 }
